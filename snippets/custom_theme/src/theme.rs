@@ -96,7 +96,7 @@ impl application::StyleSheet for Theme {
 pub enum Button {
     #[default]
     Yellow,
-    Cyan,
+    Black,
 }
 
 
@@ -113,14 +113,14 @@ impl button::StyleSheet for Theme {
 
         match style {
             Button::Yellow => auto_fill(self.yellow, self.text),
-            Button::Cyan => auto_fill(self.cyan, self.text),
+            Button::Black => auto_fill(Color::BLACK, self.text),
         }
     }
 
     fn hovered(&self, style: &Self::Style) -> button::Appearance {
         let active = self.active(style);
 
-        let difference = if &Button::Cyan == style {
+        let difference = if &Button::Black == style {
             iced::Vector::new(0.0, 0.0)
         } else {
             iced::Vector::new(0.0, 1.0)
@@ -222,72 +222,6 @@ impl text::StyleSheet for Theme {
             Text::Default => Default::default(),
             Text::Color(c) => text::Appearance { color: Some(c) },
             Text::Custom(f) => f(self),
-        }
-    }
-}
-
-/// The style of a slider.
-#[derive(Clone, Copy, Default)]
-pub enum Slider {
-    /// The default style.
-    #[default]
-    Default,
-}
-
-impl slider::StyleSheet for Theme {
-    type Style = Slider;
-
-    fn active(&self, style: &Self::Style) -> slider::Appearance {
-        match style {
-            Slider::Default => {
-                let handle = slider::Handle {
-                    shape: slider::HandleShape::Circle { radius: 1.0 },
-                    color: self.yellow,
-                    border_color: self.yellow,
-                    border_width: 1.0,
-                };
-
-                slider::Appearance {
-                    rail_colors: (self.cyan, self.cyan),
-                    handle: slider::Handle {
-                        color: self.red,
-                        border_color: self.red,
-                        ..handle
-                    },
-                }
-            }
-        }
-    }
-
-    fn hovered(&self, style: &Self::Style) -> slider::Appearance {
-        match style {
-            Slider::Default => {
-                let active = self.active(style);
-
-                slider::Appearance {
-                    handle: slider::Handle {
-                        color: self.green,
-                        ..active.handle
-                    },
-                    ..active
-                }
-            }
-        }
-    }
-
-    fn dragging(&self, style: &Self::Style) -> slider::Appearance {
-        match style {
-            Slider::Default => {
-                let active = self.active(style);
-
-                slider::Appearance {
-                    handle: slider::Handle {
-                        color: self.purple,
-                        ..active.handle
-                    },
-                    ..active
-                }
-            }
         }
     }
 }
