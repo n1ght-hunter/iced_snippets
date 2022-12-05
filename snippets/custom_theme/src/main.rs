@@ -1,7 +1,7 @@
 use iced::{
     executor,
     widget::{button, container, text},
-    Application, Command,Color,
+    Application, Color, Command,
 };
 
 mod theme;
@@ -56,12 +56,7 @@ impl Application for App {
         } else {
             theme::Text::Color(Color::from_rgb(1.0, 0.0, 0.0))
         }))
-            .style(if self.change_style {
-                theme::Button::Cyan
-            } else {
-                theme::Button::Yellow
-            })
-            .on_press(Message::ChangeStyle);
+        .on_press(Message::ChangeStyle);
         container(text).into()
     }
 }
