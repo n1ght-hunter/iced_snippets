@@ -1,40 +1,27 @@
-use iced::theme::{self, Theme};
-use iced::widget::{column, container, radio, row, text, Row};
-use iced::{Application, Color, Command, Length, Sandbox, Settings, executor};
+use iced::{Element, Sandbox, Settings};
 
 pub fn main() -> iced::Result {
-    App::run(Settings::default())
+    Hello::run(Settings::default())
 }
 
+struct Hello;
 
-#[derive(Clone, Debug)]
-enum Message {}
+impl Sandbox for Hello {
+    type Message = ();
 
-struct App {}
-
-impl Application for App {
-    type Executor = executor::Default;
-
-    type Message = Message;
-
-    type Theme = iced::Theme;
-
-    type Flags = ();
-
-    fn new(flags: Self::Flags) -> (Self, iced::Command<Self::Message>) {
-        (App {}, Command::none())
+    fn new() -> Hello {
+        Hello
     }
 
     fn title(&self) -> String {
-        String::from("Testing")
+        String::from("A cool application")
     }
 
-    fn update(&mut self, message: Self::Message) -> iced::Command<Self::Message> {
-        match message {};
-        Command::none()
+    fn update(&mut self, _message: Self::Message) {
+        // Nada
     }
 
-    fn view(&self) -> iced::Element<'_, Self::Message, iced::Renderer<Self::Theme>> {
-        text("testing").into()
+    fn view(&self) -> Element<Self::Message> {
+        "Hello, world!".into()
     }
 }

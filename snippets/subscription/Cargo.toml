@@ -1,10 +1,9 @@
 [package]
-name = "testing_work"
-version = "0.1.0"
 edition = "2021"
+name = "subscription"
+version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-iced = { version = "0.10", features = ["debug"] }
-
+iced = {version = "0.10.0", features = ["tokio", "advanced", "lazy"]}
