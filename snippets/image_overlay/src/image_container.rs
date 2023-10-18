@@ -236,22 +236,25 @@ where
     ) {
         let style = theme.appearance(&self.style);
 
-        // draw_background(renderer, &style, layout.bounds());
+        draw_background(renderer, &style, layout.bounds());
+
         if let Some(image) = &self.background_image {
             renderer.draw(image.clone(), layout.bounds());
         }
 
-        self.content.as_widget().draw(
-            &tree.children[0],
-            renderer,
-            theme,
-            &renderer::Style {
-                text_color: style.text_color.unwrap_or(renderer_style.text_color),
-            },
-            layout.children().next().unwrap(),
-            cursor,
-            viewport,
-        );
+        renderer.with_layer(viewport.clone(), |renderer| {
+            self.content.as_widget().draw(
+                &tree.children[0],
+                renderer,
+                theme,
+                &renderer::Style {
+                    text_color: style.text_color.unwrap_or(renderer_style.text_color),
+                },
+                layout.children().next().unwrap(),
+                cursor,
+                viewport,
+            );
+        })
     }
 
     fn overlay<'b>(

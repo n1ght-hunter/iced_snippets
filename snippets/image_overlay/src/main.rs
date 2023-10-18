@@ -1,7 +1,7 @@
 use iced::{
     executor,
     widget::{self, button, text},
-    Application, Color, Command, Element,
+    Application, Color, Command, Element, Length,
 };
 
 mod image_container;
@@ -53,9 +53,39 @@ impl Application for App {
     }
 
     fn view(&self) -> Element<Message> {
-        Container::new("testing", Some(self.image.clone()))
-            .center_x()
-            .center_y().padding(10)
-            .into()
+        widget::container(
+            Container::new(widget::text("Any Content").size(44), Some(self.image.clone()))
+                .center_x()
+                .center_y()
+                .height(Length::Fill)
+                .width(Length::Fill)
+                .style(iced::theme::Container::Custom(Box::new(
+                    CustomContainerStyle::default(),
+                )))
+                .padding(10),
+        )
+        .padding(50)
+        .height(Length::Fill)
+        .width(Length::Fill)
+        .center_x()
+        .center_y()
+        .into()
+    }
+}
+
+#[derive(Default)]
+struct CustomContainerStyle;
+
+impl iced::widget::container::StyleSheet for CustomContainerStyle {
+    type Style = iced::Theme;
+
+    fn appearance(&self, _style: &Self::Style) -> widget::container::Appearance {
+        widget::container::Appearance {
+            background: Some(Color::WHITE.into()),
+            border_radius: 0.0.into(),
+            border_width: 0.0,
+            border_color: Color::TRANSPARENT,
+            text_color: Some(Color::from_rgb(0.0, 0.0, 1.0)),
+        }
     }
 }
