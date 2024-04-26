@@ -107,7 +107,6 @@ impl button::StyleSheet for Theme {
         let auto_fill = |background: Color, text: Color| button::Appearance {
             background: Some(background.into()),
             text_color: text,
-            border_radius: 2.0.into(),
             ..button::Appearance::default()
         };
 
@@ -187,9 +186,7 @@ impl container::StyleSheet for Theme {
             Container::Box => container::Appearance {
                 text_color: None,
                 background: Some(self.background.into()),
-                border_radius: 2.0.into(),
-                border_width: 0.0,
-                border_color: Color::BLACK,
+                ..Default::default()
             },
             Container::Custom(f) => f(self),
         }

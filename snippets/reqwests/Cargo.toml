@@ -1,5 +1,5 @@
 [package]
-name = "globabl_hotkey"
+name = "reqwests"
 edition = "2021"
 version.workspace = true
 description.workspace = true
@@ -8,6 +8,7 @@ description.workspace = true
 
 [dependencies]
 iced.workspace = true
-crossbeam = { version = "0.8.2" }
-global-hotkey = { version = "0.4.0" }
+reqwest = { version = "0.12.4", features = ["json"] }
+reqwest-websocket = "0.3.0"
+serde = { version = "1.0.198", features = ["derive"] }
 tokio.workspace = true

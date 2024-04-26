@@ -5,3 +5,8 @@ description = "Iced Snippets"
 [workspace]
 resolver = "2"
 members = ["snippets/*"]
+
+
+[workspace.dependencies]
+iced = { version = "0.12.1", features = ["advanced", "image", "tokio", "debug", "lazy"]}
+tokio = { version = "1.23.0", features = ["full"] }

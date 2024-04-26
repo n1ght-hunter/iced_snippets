@@ -1,7 +1,7 @@
 use external_view_function::show_counter;
 use iced::{
     executor,
-    widget::{button, container, text, self},
+    widget::{self, button, container, text},
     Application, Color, Command,
 };
 
@@ -19,7 +19,7 @@ pub enum Message {
     DecrementPressed,
 }
 
-pub type Element<'a> = iced::Element<'a, Message, iced::Renderer<theme::Theme>>;
+pub type Element<'a> = iced::Element<'a, Message, theme::Theme, iced::Renderer>;
 
 struct App {
     change_style: bool,
