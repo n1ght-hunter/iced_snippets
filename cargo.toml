@@ -1,7 +1,0 @@
-[workspace.package]
-version = "0.1.0"
-description = "Iced Snippets"
-
-[workspace]
-resolver = "2"
-members = ["snippets/*"]

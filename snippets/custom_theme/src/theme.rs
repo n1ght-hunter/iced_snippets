@@ -105,9 +105,8 @@ impl button::StyleSheet for Theme {
 
     fn active(&self, style: &Button) -> button::Appearance {
         let auto_fill = |background: Color, text: Color| button::Appearance {
-            background: background.into(),
+            background: Some(background.into()),
             text_color: text,
-            border_radius: 2.0,
             ..button::Appearance::default()
         };
 
@@ -149,6 +148,7 @@ impl button::StyleSheet for Theme {
                     a: color.a * 0.5,
                     ..color
                 }),
+                iced::Background::Gradient(grad) => iced::Background::Gradient(grad),
             }),
             text_color: Color {
                 a: active.text_color.a * 0.5,
@@ -185,10 +185,8 @@ impl container::StyleSheet for Theme {
             Container::Transparent => Default::default(),
             Container::Box => container::Appearance {
                 text_color: None,
-                background: self.background.into(),
-                border_radius: 2.0,
-                border_width: 0.0,
-                border_color: Color::BLACK,
+                background: Some(self.background.into()),
+                ..Default::default()
             },
             Container::Custom(f) => f(self),
         }
