@@ -1,0 +1,8 @@
+[package]
+name = "window_drag"
+edition = "2021"
+version.workspace = true
+description.workspace = true
+
+[dependencies]
+iced.workspace = true
