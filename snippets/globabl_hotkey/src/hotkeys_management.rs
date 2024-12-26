@@ -1,9 +1,7 @@
 use global_hotkey::{
-    hotkey::{Code, HotKey, Modifiers},
-    GlobalHotKeyEvent, GlobalHotKeyEventReceiver, GlobalHotKeyManager, HotKeyState,
+    GlobalHotKeyEventReceiver, HotKeyState,
 };
 use iced::Subscription;
-use std::thread;
 use std::time::Duration;
 use tokio;
 

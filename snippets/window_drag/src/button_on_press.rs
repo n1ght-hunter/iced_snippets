@@ -179,14 +179,6 @@ where
         self.class = (Box::new(style) as StyleFn<'a, Theme>).into();
         self
     }
-
-    /// Sets the style class of the [`Button`].
-    #[cfg(feature = "advanced")]
-    #[must_use]
-    pub fn class(mut self, class: impl Into<Theme::Class<'a>>) -> Self {
-        self.class = class.into();
-        self
-    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]

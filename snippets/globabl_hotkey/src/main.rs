@@ -1,11 +1,11 @@
 use iced::widget::Container;
 use iced::widget::{button, column, text};
-use iced::{executor, window, Task};
-use iced::{Alignment, Application, Element, Length, Renderer, Settings, Subscription, Theme};
+use iced::Task;
+use iced::{Alignment, Element, Length, Renderer, Subscription, Theme};
 
 use global_hotkey::{
     hotkey::{Code, HotKey, Modifiers},
-    GlobalHotKeyEvent, GlobalHotKeyEventReceiver, GlobalHotKeyManager, HotKeyState,
+    GlobalHotKeyEvent, GlobalHotKeyEventReceiver, GlobalHotKeyManager,
 };
 
 mod hotkeys_management;

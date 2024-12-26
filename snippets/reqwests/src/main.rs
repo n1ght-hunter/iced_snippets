@@ -1,5 +1,5 @@
 use iced::{
-    futures::{SinkExt, StreamExt}, widget::{self, container}, Application, Element, Length, Settings
+    futures::{SinkExt, StreamExt}, widget::{self, container}, Element, Length
 };
 use reqwest_websocket::RequestBuilderExt as _;
 use serde::{Deserialize, Serialize};

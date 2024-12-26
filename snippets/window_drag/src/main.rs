@@ -1,8 +1,8 @@
 mod button_on_press;
 
 use button_on_press::Button;
-use iced::widget::{container, horizontal_space, Column, Container, Space, Text};
-use iced::{Color, Element, Length, Task};
+use iced::widget::{container, horizontal_space, Container};
+use iced::{Element, Length, Task};
 
 pub fn main() -> iced::Result {
     iced::application("Test App", CounterApp::update, CounterApp::view).run()
