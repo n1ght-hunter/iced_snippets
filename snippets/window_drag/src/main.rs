@@ -1,17 +1,11 @@
-use button_on_press::Button;
-use iced::widget::{container, horizontal_space, Column, Container, Space, Text};
-use iced::{executor, Application, Color, Command, Element, Length, Settings, Size};
 mod button_on_press;
 
+use button_on_press::Button;
+use iced::widget::{container, horizontal_space, Column, Container, Space, Text};
+use iced::{Color, Element, Length, Task};
+
 pub fn main() -> iced::Result {
-    CounterApp::run(Settings {
-        window: iced::window::Settings {
-            size: Size::new(800.0, 600.0), // Correct way to specify the size
-            decorations: false,            // Example option to remove title bar
-            ..Default::default()
-        },
-        ..Default::default()
-    })
+    iced::application("Test App", CounterApp::update, CounterApp::view).run()
 }
 
 #[derive(Debug, Default)]
@@ -22,45 +16,32 @@ enum Message {
     Drag,
 }
 
-impl Application for CounterApp {
-    type Executor = executor::Default;
-    type Message = Message;
-    type Flags = ();
-    type Theme = iced::Theme;
-
-    fn new(_flags: Self::Flags) -> (Self, Command<Self::Message>) {
-        (CounterApp::default(), Command::none())
-    }
-
-    fn title(&self) -> String {
-        String::from("Test App")
-    }
-
-    fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
+impl CounterApp {
+    fn update(&mut self, message: Message) -> Task<Message> {
         match message {
             Message::Drag => {
                 println!("dragging");
-                return iced::window::drag(iced::window::Id::MAIN);
+                return iced::window::get_oldest().and_then(iced::window::drag);
             }
         }
     }
 
-    fn view(&self) -> Element<Self::Message> {
+    fn view(&self) -> Element<Message> {
         let content = container(
             Button::new(horizontal_space())
                 .width(iced::Length::Fill)
                 .height(30)
                 .on_press(Message::Drag),
         )
-        .style(iced::widget::container::Appearance {
-            background: Some(iced::Background::Color(Color::BLACK)),
+        .style(|_| iced::widget::container::Style {
+            background: Some(iced::Color::BLACK.into()),
             ..Default::default()
         });
 
         Container::new(content)
             .width(Length::Fill)
             .height(Length::Fill)
-            .center_x()
+            .center_x(Length::Fill)
             // .center_y()
             .into()
     }

@@ -1,9 +1,7 @@
 use iced::widget::Container;
 use iced::widget::{button, column, text};
-use iced::{executor, window};
-use iced::{
-    Alignment, Application, Command, Element, Length, Renderer, Settings, Subscription, Theme,
-};
+use iced::{executor, window, Task};
+use iced::{Alignment, Application, Element, Length, Renderer, Settings, Subscription, Theme};
 
 use global_hotkey::{
     hotkey::{Code, HotKey, Modifiers},
@@ -25,12 +23,16 @@ fn main() {
 
     let global_hotkey_channel = GlobalHotKeyEvent::receiver();
 
-    TestApp::run(Settings::with_flags(Flags {
-        receiver: global_hotkey_channel.clone(),
-        hotkey_screenshoot: hotkey.id(),
-        hotkey_delayed_screenshoot: hotkey2.id(),
-    }))
-    .unwrap()
+    iced::application("Prova hotkeys", TestApp::update, TestApp::view)
+        .subscription(TestApp::subscription)
+        .run_with(move || {
+            TestApp::new(Flags {
+                receiver: global_hotkey_channel.clone(),
+                hotkey_screenshoot: hotkey.id(),
+                hotkey_delayed_screenshoot: hotkey2.id(),
+            })
+        })
+        .unwrap();
 }
 
 #[derive(Debug, Clone)]
@@ -54,13 +56,8 @@ struct TestApp {
     should_listen: bool,
 }
 
-impl Application for TestApp {
-    type Message = Message;
-    type Theme = Theme;
-    type Executor = executor::Default;
-    type Flags = Flags;
-
-    fn new(flags: Self::Flags) -> (Self, Command<Self::Message>) {
+impl TestApp {
+    fn new(flags: Flags) -> (Self, Task<Message>) {
         let my_app = TestApp {
             receiver: flags.receiver,
             hotkey_screenshoot: flags.hotkey_screenshoot,
@@ -69,14 +66,10 @@ impl Application for TestApp {
             should_listen: false,
         };
 
-        (my_app, Command::none())
+        (my_app, Task::none())
     }
 
-    fn title(&self) -> String {
-        String::from("Prova hotkeys")
-    }
-
-    fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
+    fn update(&mut self, message: Message) -> Task<Message> {
         match message {
             Message::EventOccurred(event) => {
                 match event {
@@ -97,17 +90,17 @@ impl Application for TestApp {
         //         window::gain_focus(),
         //     ]
         // )
-        Command::none()
+        Task::none()
     }
 
-    fn view(&self) -> Element<'_, Self::Message, Self::Theme, crate::Renderer> {
+    fn view(&self) -> Element<'_, Message, Theme, crate::Renderer> {
         let mut content = column![button(if self.should_listen {
             "Smetti di sentire"
         } else {
             "Ascolta global hotkeys"
         })
         .on_press(Message::ToggleShouldListen)]
-        .align_items(Alignment::Center)
+        .align_x(Alignment::Center)
         .spacing(10.0);
 
         if self.should_listen {
@@ -117,12 +110,11 @@ impl Application for TestApp {
         Container::new(content)
             .width(Length::Fill)
             .height(Length::Fill)
-            .center_x()
-            .center_y()
+            .center(Length::Fill)
             .into()
     }
 
-    fn subscription(&self) -> Subscription<Self::Message> {
+    fn subscription(&self) -> Subscription<Message> {
         hotkeys_management::subscribe(
             self.receiver.clone(),
             self.hotkey_screenshoot,
